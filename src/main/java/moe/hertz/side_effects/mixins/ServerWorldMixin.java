@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.At;
 
 import moe.hertz.side_effects.FakeEntityManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldGenerationProgressListener;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -43,11 +42,9 @@ public class ServerWorldMixin extends ServerWorld {
     return ((ServerWorldMixin) world).fakeEntityManager;
   }
 
-  @Inject(at = @At("HEAD"), method = "startTracking")
-  private void onStartTracking(Entity entity, CallbackInfo ci) {
-    if (entity instanceof ServerPlayerEntity player) {
-      fakeEntityManager.refreshPlayer(player, true);
-    }
+  @Inject(at = @At("HEAD"), method = "addPlayer")
+  private void onAddPlayer(ServerPlayerEntity player, CallbackInfo ci) {
+    fakeEntityManager.refreshPlayer(player, true);
   }
 
   @Inject(at = @At("TAIL"), method = "<init>")
