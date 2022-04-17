@@ -11,14 +11,15 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.PersistentState;
 
 public class FakeEntityManager extends PersistentState {
-  final ServerWorldMixin world;
+  final ServerWorld world;
   final HashMap<UUID, FakeEntity> entities = new HashMap<UUID, FakeEntity>();
   final Int2ObjectMap<FakeEntity> idIndex = new Int2ObjectLinkedOpenHashMap<FakeEntity>();
 
-  public FakeEntityManager(ServerWorldMixin world) {
+  public FakeEntityManager(ServerWorld world) {
     this.world = world;
   }
 
@@ -30,7 +31,7 @@ public class FakeEntityManager extends PersistentState {
     return idIndex.get(id);
   }
 
-  public static FakeEntityManager fromNbt(ServerWorldMixin world, NbtCompound nbt) {
+  public static FakeEntityManager fromNbt(ServerWorld world, NbtCompound nbt) {
     var ret = new FakeEntityManager(world);
     var list = nbt.getList("entities", NbtElement.COMPOUND_TYPE);
     for (var data : list) {

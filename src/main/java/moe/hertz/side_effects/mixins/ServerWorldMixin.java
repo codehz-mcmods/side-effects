@@ -22,25 +22,12 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.level.ServerWorldProperties;
 import net.minecraft.world.level.storage.LevelStorage;
-import net.minecraft.world.level.storage.LevelStorage.Session;
 import net.minecraft.world.spawner.Spawner;
 
 @Mixin(ServerWorld.class)
-public class ServerWorldMixin extends ServerWorld {
-  public ServerWorldMixin(MinecraftServer server, Executor workerExecutor, Session session,
-      ServerWorldProperties properties, RegistryKey<World> worldKey, RegistryEntry<DimensionType> registryEntry,
-      WorldGenerationProgressListener worldGenerationProgressListener, ChunkGenerator chunkGenerator,
-      boolean debugWorld, long seed, List<Spawner> spawners, boolean shouldTickTime) {
-    super(server, workerExecutor, session, properties, worldKey, registryEntry, worldGenerationProgressListener,
-        chunkGenerator, debugWorld, seed, spawners, shouldTickTime);
-  }
-
+public class ServerWorldMixin {
   @Unique
   private FakeEntityManager fakeEntityManager;
-
-  public static FakeEntityManager getFakeEntityManager(ServerWorld world) {
-    return ((ServerWorldMixin) world).fakeEntityManager;
-  }
 
   @Inject(at = @At("HEAD"), method = "addPlayer")
   private void onAddPlayer(ServerPlayerEntity player, CallbackInfo ci) {
@@ -62,14 +49,15 @@ public class ServerWorldMixin extends ServerWorld {
       List<Spawner> spawners,
       boolean shouldTickTime,
       CallbackInfo ci) {
-    this.fakeEntityManager = this.getPersistentStateManager().getOrCreate(
-        (nbt) -> FakeEntityManager.fromNbt(this, nbt),
-        () -> new FakeEntityManager(this),
+    var sw = ((ServerWorld) (Object) this);
+    this.fakeEntityManager = sw.getPersistentStateManager().getOrCreate(
+        (nbt) -> FakeEntityManager.fromNbt(sw, nbt),
+        () -> new FakeEntityManager(sw),
         "fake_entity");
   }
 
   @Inject(at = @At("TAIL"), method = "tick")
   private void tickFakeEntity(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
-    // this.
+    this.fakeEntityManager.tick();
   }
 }
