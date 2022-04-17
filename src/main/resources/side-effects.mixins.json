@@ -5,8 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "EntityMixin",
-    "EntityAttributesS2CPacketMixin",
-    "ServerWorldMixin"
+    "EntityAttributesS2CPacketMixin"
   ],
   "injectors": {
     "defaultRequire": 1
