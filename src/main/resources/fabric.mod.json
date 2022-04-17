@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "Side Effects",
+  "description": "Abuse of vanilla side effects! (current support fake entity)",
+  "authors": [
+    "CodeHz"
+  ],
+  "contact": {
+    "website": "https://mcmods.hertz.moe/${mod_id}",
+    "repo": "https://github.com/codehz-mcmods/${mod_id}"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/${mod_id}/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "moe.hertz.side_effects.SideEffects"
+    ]
+  },
+  "mixins": [
+    "${mod_id}.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "fabric": "*",
+    "minecraft": "1.18.2"
+  }
+}
