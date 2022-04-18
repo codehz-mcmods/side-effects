@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "${mod_id}",
-  "version": "${version}",
+  "version": "${base_version}",
   "name": "Side Effects",
   "description": "Abuse of vanilla side effects! (current support fake entity)",
   "authors": [

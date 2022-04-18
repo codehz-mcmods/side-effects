@@ -7,7 +7,9 @@
     "EntityMixin",
     "EntityAttributesS2CPacketMixin",
     "EntitySpawnS2CPacketMixin",
-    "MobSpawnS2CPacketMixin"
+    "MobSpawnS2CPacketMixin",
+    "SuggestionProvidersMixin",
+    "CommandManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
