@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "EntityMixin",
-    "EntityAttributesS2CPacketMixin"
+    "EntityAttributesS2CPacketMixin",
+    "EntitySpawnS2CPacketMixin",
+    "MobSpawnS2CPacketMixin"
   ],
   "injectors": {
     "defaultRequire": 1
