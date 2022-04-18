@@ -4,8 +4,12 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import moe.hertz.side_effects.IFakeEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 
@@ -16,8 +20,10 @@ public abstract class EntitySpawnS2CPacketMixin {
   @Mutable
   private EntityType<?> entityTypeId;
 
-  @Unique
-  public void setEntityTypeId(EntityType<?> type) {
-    entityTypeId = type;
+  @Inject(at = @At("TAIL"), method = "<init>(Lnet/minecraft/entity/Entity;)V")
+  void patchInit(Entity entity, CallbackInfo ci) {
+    if (entity instanceof IFakeEntity fake) {
+      entityTypeId = fake.getFakeType();
+    }
   }
 }
