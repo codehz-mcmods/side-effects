@@ -13,8 +13,7 @@ def execCmd(cmd) {
 }
 
 try {
-    version = execCmd("git describe --tags --always --first-parent --dirty").substring(1)
-    println "git version: " + version
+    version = execCmd("git describe --tags --always --first-parent").substring(1)
     def ENV = System.getenv()
     version = version + (ENV.GITHUB_ACTIONS || ENV.JITPACK ? "" : "+local")
 } catch (ex) {
