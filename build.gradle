@@ -1,24 +1,31 @@
 plugins {
     id 'fabric-loom' version '0.12.10'
     id 'maven-publish'
-    id 'com.palantir.git-version' version "0.15.0"
 }
 
 group = project.maven_group
 
 version '0.0.0-SNAPSHOT'
+
+def execCmd(cmd) {
+    def proc = cmd.execute([], project.rootDir)
+    return proc.text.trim()
+}
+
 try {
-    version versionDetails().lastTag
+    version = execCmd("git describe --tags --always --first-parent --dirty").substring(1)
+    println "git version: " + version
     def ENV = System.getenv()
     version = version + (ENV.GITHUB_ACTIONS || ENV.JITPACK ? "" : "+local")
-} catch (ex) {}
+} catch (ex) {
+    println ex
+}
 
 repositories {
     mavenCentral()
     maven { url "https://maven.terraformersmc.com/" }
     maven { url "https://maven.shedaniel.me/" }
     maven { url "https://jitpack.io" }
-
 }
 
 processResources {
