@@ -7,10 +7,14 @@ import java.util.List;
 import java.util.UUID;
 
 import moe.hertz.side_effects.mixins.EntityMixin;
+import moe.hertz.side_effects.mixins.EntitySpawnS2CPacketMixin;
+import moe.hertz.side_effects.mixins.MobSpawnS2CPacketMixin;
 import moe.hertz.side_effects.mixins.EntityAttributesS2CPacketMixin;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.data.DataTracker;
@@ -23,6 +27,7 @@ import net.minecraft.network.packet.s2c.play.EntityPositionS2CPacket;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
+import net.minecraft.network.packet.s2c.play.MobSpawnS2CPacket;
 import net.minecraft.util.math.Vec3d;
 
 public interface IFakeEntity {
@@ -60,6 +65,18 @@ public interface IFakeEntity {
         getFakeType(),
         data,
         Vec3d.ZERO);
+  }
+
+  default public Packet<?> createEntitySpawnPacket(Entity entity) {
+    var packet = new EntitySpawnS2CPacket(entity);
+    ((EntitySpawnS2CPacketMixin) (Object) packet).setEntityTypeId(getFakeType());
+    return packet;
+  }
+
+  default public Packet<?> createMobSpawnPacket(LivingEntity entity) {
+    var packet = new MobSpawnS2CPacket(entity);
+    ((MobSpawnS2CPacketMixin) (Object) packet).setEntityTypeId(getFakeType());
+    return packet;
   }
 
   default public Packet<?> getDespawnPacket() {
@@ -119,7 +136,6 @@ public interface IFakeEntity {
       return packet;
     }
   }
-  
 
   default public DataUpdate updateData() {
     return new DataUpdate(getId());
