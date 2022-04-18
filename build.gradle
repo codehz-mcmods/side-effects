@@ -16,7 +16,7 @@ try {
     }
     def ENV = System.getenv()
     if (!ENV.GITHUB_ACTIONS && !ENV.JITPACK) {
-        version += detils.isCleanTag ? "+local" : "+dirty"
+        version += details.isCleanTag ? "+local" : "+dirty"
     }
 } catch (ex) {
     println ex
