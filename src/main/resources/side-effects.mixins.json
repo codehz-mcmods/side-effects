@@ -3,6 +3,7 @@
   "minVersion": "0.8",
   "package": "moe.hertz.side_effects.mixins",
   "compatibilityLevel": "JAVA_8",
+  "plugin": "moe.hertz.side_effects.MixinConfigPlugin",
   "mixins": [
     "EntityMixin",
     "EntityAttributesS2CPacketMixin",
