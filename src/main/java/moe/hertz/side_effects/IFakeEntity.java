@@ -59,7 +59,8 @@ public interface IFakeEntity {
         yaw,
         getFakeType(),
         data,
-        Vec3d.ZERO);
+        Vec3d.ZERO,
+        0.0);
   }
 
   default public Packet<?> getDespawnPacket() {

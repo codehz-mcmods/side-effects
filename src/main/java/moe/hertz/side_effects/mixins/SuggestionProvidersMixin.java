@@ -19,8 +19,8 @@ public class SuggestionProvidersMixin {
   @Final
   private static Identifier ASK_SERVER_NAME;
 
-  @Inject(method = "computeName", at = @At(value = "RETURN", ordinal = 0), cancellable = true)
-  private static void onComputeName(SuggestionProvider<CommandSource> provider,
+  @Inject(method = "computeId", at = @At(value = "RETURN", ordinal = 0), cancellable = true)
+  private static void onComputeId(SuggestionProvider<CommandSource> provider,
       CallbackInfoReturnable<Identifier> cir) {
     if (cir.getReturnValue().getPath().equals("summonable_entities")) {
       cir.setReturnValue(ASK_SERVER_NAME);
